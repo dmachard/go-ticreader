@@ -2,6 +2,7 @@ package ticreader
 
 import (
 	"bufio"
+	"encoding/json"
 	"strings"
 	"time"
 
@@ -20,6 +21,14 @@ type GroupInfo struct {
 type TeleInfo struct {
 	Timestamp    time.Time   `json:"timestamp"`
 	Informations []GroupInfo `json:"teleinfo"`
+}
+
+func (t TeleInfo) ToJSON() (string, error) {
+	jsonData, err := json.Marshal(t)
+	if err != nil {
+		return "", err
+	}
+	return string(jsonData), nil
 }
 
 type LinkyMode struct {

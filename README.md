@@ -24,7 +24,7 @@ if err != nil {
 }
 
 for frame := range frameChan {
-    fmt.Println(frame)
+    fmt.Println(frame.ToJSON())
 }
 ```
 
