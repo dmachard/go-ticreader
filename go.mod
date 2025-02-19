@@ -1,4 +1,4 @@
-module ticreader
+module github.com/dmachard/go-ticreader
 
 go 1.22.2
 
