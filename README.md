@@ -26,7 +26,58 @@ if err != nil {
 }
 
 for frame := range frameChan {
-    fmt.Println(frame.ToJSON())
+    teleinfo, _ := frame.ToJSON()
+    fmt.Println(teleinfo)
+}
+```
+
+Example d'une trame au format JSON
+
+```json
+{
+  "timestamp": "2025-02-19T21:09:37.123405268+01:00",
+  "teleinfo": [
+    {
+      "label": "ADCO",
+      "data": "xxxxxxxxx"
+    },
+    {
+      "label": "OPTARIF",
+      "data": "BASE"
+    },
+    {
+      "label": "ISOUSC",
+      "data": "45"
+    },
+    {
+      "label": "BASE",
+      "data": "xxxxxx"
+    },
+    {
+      "label": "PTEC",
+      "data": "TH.."
+    },
+    {
+      "label": "IINST",
+      "data": "002"
+    },
+    {
+      "label": "IMAX",
+      "data": "090"
+    },
+    {
+      "label": "PAPP",
+      "data": "00530"
+    },
+    {
+      "label": "HHPHC",
+      "data": "A"
+    },
+    {
+      "label": "MOTDETAT",
+      "data": "000000"
+    }
+  ]
 }
 ```
 
