@@ -6,6 +6,8 @@ Une bibliothèque Go pour lire les trames TIC (Télé-information Client) des co
 - Conversion en JSON
 - Support mode historique et standard
 
+Testé avec le dongle https://github.com/hallard/uTeleinfo
+
 ## Installation
 
 ```bash
@@ -16,7 +18,7 @@ go get github.com/dmachard/go-teleinfolib
 
 ### Example basique
 
-```bash
+```go
 frameChan, err := teleinfolib.StartReading("/dev/ttyACM0", teleinfolib.ModeHistorical)
 if err != nil {
     fmt.Println("Erreur:", err)
