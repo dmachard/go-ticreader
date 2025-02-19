@@ -11,7 +11,7 @@ Testé avec le dongle https://github.com/hallard/uTeleinfo
 ## Installation
 
 ```bash
-go get github.com/dmachard/go-teleinfolib
+go get github.com/dmachard/go-ticreader
 ```
 
 ## Utilisation
@@ -19,7 +19,7 @@ go get github.com/dmachard/go-teleinfolib
 ### Example basique
 
 ```go
-frameChan, err := teleinfolib.StartReading("/dev/ttyACM0", teleinfolib.ModeHistorical)
+frameChan, err := ticreader.StartReading("/dev/ttyACM0", ticreader.ModeHistorical)
 if err != nil {
     fmt.Println("Erreur:", err)
     return
