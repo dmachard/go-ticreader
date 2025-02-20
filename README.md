@@ -4,7 +4,7 @@ Une bibliothèque Go pour lire les trames TIC (Télé-information Client) des co
 - Lecture des trames TIC via un port série
 - Utilisation de channels pour un traitement asynchrone
 - Conversion en JSON
-- Support mode historique et standard
+- Support mode historique et standard https://www.enedis.fr/media/2035/download
 
 Testé avec le dongle https://github.com/hallard/uTeleinfo
 
@@ -36,7 +36,7 @@ Example d'une trame au format JSON
 ```json
 {
   "timestamp": "2025-02-19T21:09:37.123405268+01:00",
-  "teleinfo": [
+  "dataset": [
     {
       "label": "ADCO",
       "data": "xxxxxxxxx",
