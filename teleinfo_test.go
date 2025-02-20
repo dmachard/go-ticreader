@@ -8,10 +8,7 @@ import (
 
 func TestDecodeFrame(t *testing.T) {
 	frame := "ADCO 061764523690 H\nOPTARIF BASE 0\nISOUSC 45 ?"
-	decodedFrame, err := decodeFrame(frame, ModeHistorical)
-	if err != nil {
-		t.Errorf("Unexpected error: %v", err)
-	}
+	decodedFrame := decodeFrame(frame, ModeHistorical)
 
 	if len(decodedFrame.Informations) != 3 {
 		t.Errorf("Expected 3 groups, got %v", len(decodedFrame.Informations))

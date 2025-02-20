@@ -3,7 +3,6 @@ package ticreader
 import (
 	"bufio"
 	"encoding/json"
-	"fmt"
 	"strings"
 	"time"
 
@@ -20,8 +19,10 @@ type GroupInfo struct {
 }
 
 type TeleInfo struct {
-	Timestamp    time.Time   `json:"timestamp"`
-	Informations []GroupInfo `json:"teleinfo"`
+	Timestamp          time.Time   `json:"timestamp"`
+	Informations       []GroupInfo `json:"teleinfo"`
+	DecodeErrorMsg     string      `json:"decode-error-msg,omitempty"`
+	DecodeErrorDetails string      `json:"decode-error-details,omitempty"`
 }
 
 func (t TeleInfo) ToJSON() (string, error) {
@@ -84,7 +85,7 @@ func readFrame(reader *bufio.Reader, mode LinkyMode) (TeleInfo, error) {
 	for {
 		c, err := reader.ReadByte()
 		if err != nil {
-			return TeleInfo{}, err
+			return TeleInfo{DecodeErrorMsg: err.Error()}, err
 		}
 
 		if c == 0x02 {
@@ -95,18 +96,14 @@ func readFrame(reader *bufio.Reader, mode LinkyMode) (TeleInfo, error) {
 
 		if inFrame {
 			if c == 0x03 {
-				decodedFrame, err := decodeFrame(frameBuilder.String(), mode)
-				if err != nil {
-					return TeleInfo{}, err
-				}
-				return decodedFrame, nil
+				return decodeFrame(frameBuilder.String(), mode), nil
 			}
 			frameBuilder.WriteByte(c)
 		}
 	}
 }
 
-func decodeFrame(frame string, mode LinkyMode) (TeleInfo, error) {
+func decodeFrame(frame string, mode LinkyMode) TeleInfo {
 	var teleinfo TeleInfo
 	lines := strings.Split(frame, "\n")
 
@@ -117,20 +114,18 @@ func decodeFrame(frame string, mode LinkyMode) (TeleInfo, error) {
 
 		var group GroupInfo
 		var err error
-		fmt.Printf("decode: %d %s\n", len(line), line)
 		if mode == ModeStandard {
 			group, err = parseStandardFrame(line)
 		} else {
 			group, err = parseHistoricFrame(line)
 		}
-		fmt.Println(group, err)
 		if err != nil {
-			return TeleInfo{}, err
+			return TeleInfo{DecodeErrorMsg: err.Error(), DecodeErrorDetails: line}
 		}
 		if group.Label != "" {
 			teleinfo.Informations = append(teleinfo.Informations, group)
 		}
 	}
 	teleinfo.Timestamp = time.Now()
-	return teleinfo, nil
+	return teleinfo
 }
