@@ -105,7 +105,7 @@ func parseHistoricDataset(dataset string) (Dataset, error) {
 	checksum := parts[2]
 
 	valid := verifyChecksum(label+" "+data, checksum)
-	return Dataset{Label: label, Data: data, Valid: valid}, nil
+	return Dataset{Label: label, Data: data, Valid: valid, Checksum: checksum}, nil
 }
 
 // parseStandardFrame extrait les données d'une ligne en mode STANDARD
@@ -119,7 +119,7 @@ func parseStandardDataset(dataset string) (Dataset, error) {
 		checksum := parts[3]
 
 		valid := verifyChecksum(checksum, label+"\t"+horodate+"\t"+data)
-		return Dataset{Label: label, Horodate: horodate, Data: data, Valid: valid}, nil
+		return Dataset{Label: label, Horodate: horodate, Data: data, Valid: valid, Checksum: checksum}, nil
 
 	} else if len(parts) == 3 { // Sans horodatage
 		label := parts[0]
@@ -127,7 +127,7 @@ func parseStandardDataset(dataset string) (Dataset, error) {
 		checksum := parts[2]
 
 		valid := verifyChecksum(checksum, label+"\t"+data)
-		return Dataset{Label: label, Data: data, Valid: valid}, nil
+		return Dataset{Label: label, Data: data, Valid: valid, Checksum: checksum}, nil
 	}
 
 	return Dataset{}, ErrInvalidStandardDataset

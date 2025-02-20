@@ -19,14 +19,14 @@ go get github.com/dmachard/go-ticreader
 ### Example basique
 
 ```go
-frameChan, err := ticreader.StartReading("/dev/ttyACM0", ticreader.ModeHistorical)
+ticChan, err := ticreader.StartReading("/dev/ttyACM0", ticreader.ModeHistorical)
 if err != nil {
     fmt.Println("Erreur:", err)
     return
 }
 
-for frame := range frameChan {
-    teleinfo, _ := frame.ToJSON()
+for tic := range ticChan {
+    teleinfo, _ := tic.ToJSON()
     fmt.Println(teleinfo)
 }
 ```
