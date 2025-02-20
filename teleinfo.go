@@ -111,6 +111,10 @@ func decodeFrame(frame string, mode LinkyMode) (TeleInfo, error) {
 	lines := strings.Split(frame, "\n")
 
 	for _, line := range lines {
+		if line == "" {
+			continue
+		}
+
 		var group GroupInfo
 		var err error
 		fmt.Printf("decode: %d %s\n", len(line), line)
