@@ -54,22 +54,22 @@ func TestParseHistoricDataset(t *testing.T) {
 }
 
 func TestParseStandardDataset(t *testing.T) {
-	frame := "OPTARIF\tBASE\t0"
+	frame := "ADCO\t021528603314\t#"
 	dataset, err := parseStandardDataset(frame)
 	if err != nil {
 		t.Errorf("Unexpected error: %s", err)
 	}
 
-	if dataset.Label != "OPTARIF" {
-		t.Errorf("Expected label OPTARIF, got %s", dataset.Label)
+	if dataset.Label != "ADCO" {
+		t.Errorf("Expected label ADCO, got %s", dataset.Label)
 	}
 
-	if dataset.Data != "BASE" {
-		t.Errorf("Expected data BASE, got %s", dataset.Data)
+	if dataset.Data != "021528603314" {
+		t.Errorf("Expected data 021528603314, got %s", dataset.Data)
 	}
 
 	if dataset.Valid != true {
-		t.Errorf("Checksum invalid: %s", dataset.Checksum)
+		t.Errorf("Checksum invalid, got %s", dataset.Checksum)
 	}
 }
 
@@ -80,13 +80,14 @@ func TestCalculateChecksum(t *testing.T) {
 	}{
 		{"IINST 002", "Y"}, // historical format
 		{"IMAX 090", "H"},
-		{"IINST\t002", "B"}, // standard format
+		{"IINST\t002", "B"}, // standard format sans horodatage
+		{"ADCO\t021528603314", "#"},
 	}
 
 	for _, test := range tests {
 		result := calculateChecksum(test.input)
 		if string(result) != test.expected {
-			t.Errorf("calculateChecksum(%q) = %s; expected %X", test.input, string(result), test.expected)
+			t.Errorf("calculateChecksum(%q) = %s; expected %s", test.input, string(result), test.expected)
 		}
 	}
 }
