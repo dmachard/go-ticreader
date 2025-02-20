@@ -7,15 +7,18 @@ import (
 )
 
 func TestDecodeFrame(t *testing.T) {
-	frame := "ADCO 012345678901 C\nOPTARIF BASE C\nISOUSC 30 9"
-	result := decodeFrame(frame, ModeHistorical)
-
-	if len(result.Informations) != 3 {
-		t.Errorf("Expected 3 groups, got %d", len(result.Informations))
+	frame := "ADCO 061764523690 H\nOPTARIF BASE 0\nISOUSC 45 ?"
+	decodedFrame, err := decodeFrame(frame, ModeHistorical)
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
 	}
 
-	if result.Informations[0].Label != "ADCO" {
-		t.Errorf("Expected first label to be ADCO, got %s", result.Informations[0].Label)
+	if len(decodedFrame.Informations) != 3 {
+		t.Errorf("Expected 3 groups, got %v", len(decodedFrame.Informations))
+	}
+
+	if decodedFrame.Informations[0].Label != "ADCO" {
+		t.Errorf("Expected first label to be ADCO, got %s", decodedFrame.Informations[0].Label)
 	}
 }
 

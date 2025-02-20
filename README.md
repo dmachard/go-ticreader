@@ -39,43 +39,53 @@ Example d'une trame au format JSON
   "teleinfo": [
     {
       "label": "ADCO",
-      "data": "xxxxxxxxx"
+      "data": "xxxxxxxxx",
+      "valid": true
     },
     {
       "label": "OPTARIF",
-      "data": "BASE"
+      "data": "BASE",
+      "valid": true
     },
     {
       "label": "ISOUSC",
-      "data": "45"
+      "data": "45",
+      "valid": true
     },
     {
       "label": "BASE",
-      "data": "xxxxxx"
+      "data": "xxxxxx",
+      "valid": true
     },
     {
       "label": "PTEC",
-      "data": "TH.."
+      "data": "TH..",
+      "valid": true
     },
     {
       "label": "IINST",
-      "data": "002"
+      "data": "002",
+      "valid": true
     },
     {
       "label": "IMAX",
-      "data": "090"
+      "data": "090",
+      "valid": true
     },
     {
       "label": "PAPP",
-      "data": "00530"
+      "data": "00530",
+      "valid": true
     },
     {
       "label": "HHPHC",
-      "data": "A"
+      "data": "A",
+      "valid": true
     },
     {
       "label": "MOTDETAT",
-      "data": "000000"
+      "data": "000000",
+      "valid": true
     }
   ]
 }

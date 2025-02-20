@@ -15,7 +15,7 @@ type GroupInfo struct {
 	Data     string `json:"data"`
 	Horodate string `json:"horodate,omitempty"`
 	Checksum string `json:"-"`
-	Valid    bool   `json:"-"`
+	Valid    bool   `json:"valid"`
 }
 
 type TeleInfo struct {
@@ -66,7 +66,7 @@ func StartReading(port string, mode LinkyMode) (<-chan TeleInfo, error) {
 		for {
 			frame, err := readFrame(reader, mode)
 			if err != nil {
-				log.Error("Erreur lecture frame: ", err)
+				log.Error("Invalid frame: ", err)
 				continue
 			}
 			frameChan <- frame
@@ -94,28 +94,36 @@ func readFrame(reader *bufio.Reader, mode LinkyMode) (TeleInfo, error) {
 
 		if inFrame {
 			if c == 0x03 {
-				return decodeFrame(frameBuilder.String(), mode), nil
+				decodedFrame, err := decodeFrame(frameBuilder.String(), mode)
+				if err != nil {
+					return TeleInfo{}, err
+				}
+				return decodedFrame, nil
 			}
 			frameBuilder.WriteByte(c)
 		}
 	}
 }
 
-func decodeFrame(frame string, mode LinkyMode) TeleInfo {
+func decodeFrame(frame string, mode LinkyMode) (TeleInfo, error) {
 	var teleinfo TeleInfo
 	lines := strings.Split(frame, "\n")
 
 	for _, line := range lines {
 		var group GroupInfo
+		var err error
 		if mode == ModeStandard {
-			group = parseStandardFrame(line)
+			group, err = parseStandardFrame(line)
 		} else {
-			group = parseHistoricFrame(line)
+			group, err = parseHistoricFrame(line)
+		}
+		if err != nil {
+			return TeleInfo{}, err
 		}
 		if group.Label != "" {
 			teleinfo.Informations = append(teleinfo.Informations, group)
 		}
 	}
 	teleinfo.Timestamp = time.Now()
-	return teleinfo
+	return teleinfo, nil
 }

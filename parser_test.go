@@ -7,8 +7,11 @@ import (
 )
 
 func TestParseHistoricFrame(t *testing.T) {
-	frame := "ADCO 012345678901 C"
-	group := parseHistoricFrame(frame)
+	frame := "ADCO 012345678901 E"
+	group, err := parseHistoricFrame(frame)
+	if err != nil {
+		t.Errorf("Unexpected error: %s", err)
+	}
 
 	if group.Label != "ADCO" {
 		t.Errorf("Expected label ADCO, got %s", group.Label)
@@ -20,8 +23,11 @@ func TestParseHistoricFrame(t *testing.T) {
 }
 
 func TestParseStandardFrame(t *testing.T) {
-	frame := "OPTARIF\tBASE\tC"
-	group := parseStandardFrame(frame)
+	frame := "OPTARIF\tBASE\t0"
+	group, err := parseStandardFrame(frame)
+	if err != nil {
+		t.Errorf("Unexpected error: %s", err)
+	}
 
 	if group.Label != "OPTARIF" {
 		t.Errorf("Expected label OPTARIF, got %s", group.Label)
@@ -33,7 +39,7 @@ func TestParseStandardFrame(t *testing.T) {
 }
 
 func TestReadFrame(t *testing.T) {
-	r := strings.NewReader("\x02ADCO 012345678901 C\x03")
+	r := strings.NewReader("\x02ADCO 012345678901 E\x03")
 	reader := bufio.NewReader(r)
 
 	frame, err := readFrame(reader, ModeHistorical)
