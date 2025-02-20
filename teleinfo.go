@@ -78,6 +78,12 @@ func StartReading(port string, mode LinkyMode) (<-chan TeleInfo, error) {
 	return frameChan, nil
 }
 
+// Format de la trame
+// Une trame est constituée de trois parties
+// | STX | Data set | Data set | …. | Data set | ETX
+// le caractère "Start TeXt" STX (0x02) indique le début de la trame
+// le corps de la trame est composé de plusieurs groupes d'informations,
+// le caractère "End TeXt" ETX (0x03) indique la fin de la trame.
 func readFrame(reader *bufio.Reader, mode LinkyMode) (TeleInfo, error) {
 	var frameBuilder strings.Builder
 	inFrame := false
@@ -103,6 +109,9 @@ func readFrame(reader *bufio.Reader, mode LinkyMode) (TeleInfo, error) {
 	}
 }
 
+// Format des groupes d’information
+// un caractère "Line Feed" LF (0x0A) indiquant le début du groupe,
+// un caractère "Carriage Return" CR (0x0D) indiquant la fin du groupe d'information
 func decodeFrame(frame string, mode LinkyMode) TeleInfo {
 	var teleinfo TeleInfo
 	lines := strings.Split(frame, "\n")

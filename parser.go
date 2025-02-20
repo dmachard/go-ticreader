@@ -7,6 +7,12 @@ import (
 
 var ErrInvalidFrame = errors.New("invalid frame")
 
+// Format
+// | Etiquette | Separator | Donnée | Separator | Checksum |
+// le champ étiquette dont la longueur est inférieure ou égale à huit caractères,
+// le champ "donnée" dont la longueur est variable
+// Le séparateur est un espace SP (0x20) en mode historique et une tabulation HT (0x09) en mode standard
+
 // parseHistoricFrame extrait l'étiquette, la donnée et le checksum d'un groupe en mode historique
 func parseHistoricFrame(frame string) (GroupInfo, error) {
 	parts := strings.Fields(frame)
@@ -54,6 +60,9 @@ func verifyChecksum(label, value, checksum string) bool {
 }
 
 // calculateChecksum calcule le checksum attendu
+// La checksum est calculée sur l'ensemble des caractères allant du début du champ Etiquette
+// à la fin du champ Donnée, séparateurs inclus.
+// Le résultat sera toujours un caractère ASCII imprimable compris entre 0x20 et 0x5F
 func calculateChecksum(label, value string) byte {
 	chksum := 32
 
