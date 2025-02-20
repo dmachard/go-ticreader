@@ -113,7 +113,7 @@ func decodeFrame(frame string, mode LinkyMode) (TeleInfo, error) {
 	for _, line := range lines {
 		var group GroupInfo
 		var err error
-		fmt.Println("decode", line)
+		fmt.Printf("decode: %d %s\n", len(line), line)
 		if mode == ModeStandard {
 			group, err = parseStandardFrame(line)
 		} else {
