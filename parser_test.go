@@ -47,6 +47,10 @@ func TestParseHistoricDataset(t *testing.T) {
 	if dataset.Data != "012345678901" {
 		t.Errorf("Expected data 012345678901, got %s", dataset.Data)
 	}
+
+	if dataset.Valid != true {
+		t.Errorf("Checksum invalid: %s", dataset.Checksum)
+	}
 }
 
 func TestParseStandardDataset(t *testing.T) {
@@ -63,6 +67,10 @@ func TestParseStandardDataset(t *testing.T) {
 	if dataset.Data != "BASE" {
 		t.Errorf("Expected data BASE, got %s", dataset.Data)
 	}
+
+	if dataset.Valid != true {
+		t.Errorf("Checksum invalid: %s", dataset.Checksum)
+	}
 }
 
 func TestCalculateChecksum(t *testing.T) {
@@ -70,7 +78,8 @@ func TestCalculateChecksum(t *testing.T) {
 		input    string
 		expected string
 	}{
-		{"IINST 002", "Y"},  // historical format
+		{"IINST 002", "Y"}, // historical format
+		{"IMAX 090", "H"},
 		{"IINST\t002", "B"}, // standard format
 	}
 

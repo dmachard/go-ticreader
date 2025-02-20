@@ -104,7 +104,7 @@ func parseHistoricDataset(dataset string) (Dataset, error) {
 	data := parts[1]
 	checksum := parts[2]
 
-	valid := verifyChecksum(label+" "+data, checksum)
+	valid := verifyChecksum(checksum, label+" "+data)
 	return Dataset{Label: label, Data: data, Valid: valid, Checksum: checksum}, nil
 }
 
