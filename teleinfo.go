@@ -3,6 +3,7 @@ package ticreader
 import (
 	"bufio"
 	"encoding/json"
+	"fmt"
 	"strings"
 	"time"
 
@@ -66,7 +67,7 @@ func StartReading(port string, mode LinkyMode) (<-chan TeleInfo, error) {
 		for {
 			frame, err := readFrame(reader, mode)
 			if err != nil {
-				log.Error("Invalid frame: ", err)
+				log.Error("Error in frame: ", err)
 				continue
 			}
 			frameChan <- frame
@@ -112,11 +113,13 @@ func decodeFrame(frame string, mode LinkyMode) (TeleInfo, error) {
 	for _, line := range lines {
 		var group GroupInfo
 		var err error
+		fmt.Println("decode", line)
 		if mode == ModeStandard {
 			group, err = parseStandardFrame(line)
 		} else {
 			group, err = parseHistoricFrame(line)
 		}
+		fmt.Println(group, err)
 		if err != nil {
 			return TeleInfo{}, err
 		}
