@@ -54,7 +54,7 @@ func TestParseHistoricDataset(t *testing.T) {
 }
 
 func TestParseStandardDataset(t *testing.T) {
-	frame := "ADCO\t021528603314\t#"
+	frame := "ADCO\t1234567890123\t,"
 	dataset, err := parseStandardDataset(frame)
 	if err != nil {
 		t.Errorf("Unexpected error: %s", err)
@@ -64,8 +64,8 @@ func TestParseStandardDataset(t *testing.T) {
 		t.Errorf("Expected label ADCO, got %s", dataset.Label)
 	}
 
-	if dataset.Data != "021528603314" {
-		t.Errorf("Expected data 021528603314, got %s", dataset.Data)
+	if dataset.Data != "1234567890123" {
+		t.Errorf("Expected data 1234567890123, got %s", dataset.Data)
 	}
 
 	if dataset.Valid != true {
@@ -80,8 +80,10 @@ func TestCalculateChecksum(t *testing.T) {
 	}{
 		{"IINST 002", "Y"}, // historical format
 		{"IMAX 090", "H"},
-		{"IINST\t002", "B"}, // standard format sans horodatage
-		{"ADCO\t021528603314", "#"},
+		{"SINSTS\t00520\t", "M"},                // standard format sans horodatage
+		{"SMAXSN\tH250221001022\t02560\t", "+"}, // avec horodatages
+		{"STGE\t003AC001\t", "M"},
+		{"ADCO\t1234567890123\t", ","},
 	}
 
 	for _, test := range tests {

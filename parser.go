@@ -118,7 +118,7 @@ func parseStandardDataset(dataset string) (Dataset, error) {
 		data := parts[2]
 		checksum := parts[3]
 
-		valid := verifyChecksum(checksum, label+"\t"+horodate+"\t"+data)
+		valid := verifyChecksum(checksum, label+"\t"+horodate+"\t"+data+"\t")
 		return Dataset{Label: label, Horodate: horodate, Data: data, Valid: valid, Checksum: checksum}, nil
 
 	} else if len(parts) == 3 { // Sans horodatage
@@ -126,7 +126,7 @@ func parseStandardDataset(dataset string) (Dataset, error) {
 		data := parts[1]
 		checksum := parts[2]
 
-		valid := verifyChecksum(checksum, label+"\t"+data)
+		valid := verifyChecksum(checksum, label+"\t"+data+"\t")
 		return Dataset{Label: label, Data: data, Valid: valid, Checksum: checksum}, nil
 	}
 

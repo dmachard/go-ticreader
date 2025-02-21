@@ -16,6 +16,11 @@ go get github.com/dmachard/go-ticreader
 
 ## Utilisation
 
+### Choix du mode de fonctionnement
+
+- `ticreader.ModeHistorical`
+- `ticreader.ModeStandard`
+
 ### Example basique
 
 ```go
