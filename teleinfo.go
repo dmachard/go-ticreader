@@ -64,11 +64,13 @@ func StartReading(port string, mode LinkyMode) (<-chan TeleInfo, error) {
 	frameChan := make(chan TeleInfo)
 
 	go func() {
+		defer close(frameChan)
+
 		for {
 			frame, err := decodeFrame(reader, mode)
 			if err != nil {
-				log.Error("Error in frame: ", err)
-				continue
+				log.Error("Error to read serial: ", err)
+				return
 			}
 			frameChan <- frame
 		}
