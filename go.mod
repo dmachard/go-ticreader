@@ -1,8 +1,9 @@
 module github.com/dmachard/go-ticreader
 
 go 1.22.2
+
 require (
-	github.com/sirupsen/logrus v1.9.3
+	github.com/sirupsen/logrus v1.9.4
 	go.bug.st/serial v1.6.4
 )
 
