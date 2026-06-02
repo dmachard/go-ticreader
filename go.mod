@@ -1,13 +1,10 @@
 module github.com/dmachard/go-ticreader
 
-go 1.22.2
+go 1.25.0
 
 require (
 	github.com/sirupsen/logrus v1.9.4
-	go.bug.st/serial v1.6.4
+	go.bug.st/serial v1.7.1
 )
 
-require (
-	github.com/creack/goselect v0.1.2 // indirect
-	golang.org/x/sys v0.19.0 // indirect
-)
+require golang.org/x/sys v0.43.0 // indirect
